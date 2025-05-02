@@ -2,7 +2,7 @@
 
 The code for the paper 
 
-**Z. Wang, X. Mu, and Y. Liu, “Beamfocusing Optimization for Near-Field Wideband Multi-User Communications,” *IEEE Transactions on Communications*, Early Access, Jul. 2024** [[Arxiv](https://arxiv.org/abs/2306.16861)] [[IEEE](https://ieeexplore.ieee.org/abstract/document/10587118)]
+**Z. Wang, X. Mu, and Y. Liu, “Beamfocusing Optimization for Near-Field Wideband Multi-User Communications,” *IEEE Transactions on Communications*, vol. 73, no. 1, pp. 555-572, Jan. 2025** [[Arxiv](https://arxiv.org/abs/2306.16861)] [[IEEE](https://ieeexplore.ieee.org/abstract/document/10587118)]
 
 <!-- ```diff
 - We only release the codes for the fully-connected architectures. The codes for the sub-connected architectures will be released soon.
@@ -34,7 +34,10 @@ If you in any way use this code for research, please cite our original article l
   title={Beamfocusing optimization for near-field wideband multi-user communications},
   author={Wang, Zhaolin and Mu, Xidong and Liu, Yuanwei},
   journal={{IEEE} Trans. Commun.},
-  year={2024},
+  year={2025},
+  volume={73},
+  number={1},
+  pages={555-572},
   publisher={IEEE}
 }
 ```
