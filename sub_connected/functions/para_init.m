@@ -33,11 +33,12 @@ m = 1:para.M;
 para.fm_all =  para.fc + para.B*(2*m-1-para.M) / (2*para.M); % subcarrier frequency (Hz)
 
 para.noise_dB = -174; % noise power density in dBm/Hz
-para.noise_dB = para.noise_dB + 10*log10(para.B/10); % noise power in dBm
+para.noise_dB = para.noise_dB + 10*log10(para.B/para.M); % noise power in dBm
 
 para.Gt = 15; % dBi, transmit antenna gain
 para.Gr = 5; % dBi, receive antenna gain
 
 
 end
+
 
