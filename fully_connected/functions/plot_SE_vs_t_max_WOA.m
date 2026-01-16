@@ -9,6 +9,18 @@ function plot_SE_vs_t_max_WOA(para, H, user_r, user_theta, t_max_range)
 %   t_max_range: array of maximum time delay values (e.g., [1e-9, 2e-9, 3e-9])
 %Date: 17/01/2026
 
+if nargin < 1
+    para = para_init();
+end
+if nargin < 2
+    user_r = rand(para.K, 1) * 10 + 5;
+end
+if nargin < 3
+    user_theta = sort(rand(para.K, 1) * pi);
+end
+if nargin < 4
+    H = generate_channel(para, user_r, user_theta);
+end
 if nargin < 5
     t_max_range = [1e-9, 2e-9, 3e-9, 4e-9, 5e-9]; % Default t_max range in seconds
 end

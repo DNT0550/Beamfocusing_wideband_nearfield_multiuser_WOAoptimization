@@ -9,6 +9,18 @@ function plot_SE_vs_N_T_WOA(para, H, user_r, user_theta, N_T_range)
 %   N_T_range: array of number of TTDs values (e.g., [4, 8, 12, 16])
 %Date: 17/01/2026
 
+if nargin < 1
+    para = para_init();
+end
+if nargin < 2
+    user_r = rand(para.K, 1) * 10 + 5;
+end
+if nargin < 3
+    user_theta = sort(rand(para.K, 1) * pi);
+end
+if nargin < 4
+    H = generate_channel(para, user_r, user_theta);
+end
 if nargin < 5
     N_T_range = [4, 8, 12, 16, 20]; % Default N_T range
 end

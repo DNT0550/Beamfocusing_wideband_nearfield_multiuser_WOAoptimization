@@ -9,6 +9,18 @@ function plot_SE_vs_Pt_WOA(para, H, user_r, user_theta, Pt_range)
 %   Pt_range: array of transmit power values (e.g., [10, 20, 30])
 %Date: 17/01/2026
 
+if nargin < 1
+    para = para_init();
+end
+if nargin < 2
+    user_r = rand(para.K, 1) * 10 + 5;
+end
+if nargin < 3
+    user_theta = sort(rand(para.K, 1) * pi);
+end
+if nargin < 4
+    H = generate_channel(para, user_r, user_theta);
+end
 if nargin < 5
     Pt_range = [10, 20, 30, 40, 50]; % Default Pt range
 end
