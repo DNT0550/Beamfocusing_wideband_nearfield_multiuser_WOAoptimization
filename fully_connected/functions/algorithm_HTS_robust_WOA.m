@@ -1,15 +1,12 @@
-function [R, A, D, t] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta, W_initial, theta_plot, r_plot, plot_flag)
+function [R, A, D, t] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta, W_initial)
 %The robust heuristic two-stage approach using WOA
-%  [R, A, D, t] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta, W_initial, theta_plot, r_plot, plot_flag)
+%  [R, A, D, t] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta, W_initial)
 %Inputs:
 %   para: structure of the initial parameters
 %   H: channel for all users
 %   user_r: distance for all users
 %   user_theta: angle for all users
 %   W_initial: initialized digital beamformers (for FDA approach)
-%   theta_plot: angle for plotting array gain (optional)
-%   r_plot: distance for plotting array gain (optional)
-%   plot_flag: flag to plot array gain (optional, default false)
 %Outputs:
 %   R: optimized spectral efficiency
 %   A: optimized analog beamforming matrix
@@ -22,11 +19,6 @@ switch nargin
     case 4
     W_initial = randn(para.N, para.K) + 1i * randn(para.N, para.K);
     W_initial = W_initial / norm(W_initial, 'fro') * sqrt(para.Pt);
-    plot_flag = false;
-    case 5
-    plot_flag = false;
-    case 7
-    plot_flag = false;
 end
 
 c = 3e8; % speed of light
@@ -80,17 +72,6 @@ end
 
 [R] = rate_fully_digital(para, W, H);
 R = R/(para.M+para.Lcp);
-
-%% Plot array gain if requested
-if plot_flag && nargin >= 7
-    [~, P_WOA_robust] = beampattern_WOA(para, theta_plot, r_plot, [], [], A, t);
-    figure;
-    plot(para.fm_all/1e9, 10*log10(P_WOA_robust/para.N), 'LineWidth', 1.5);
-    xlabel('Frequency (GHz)', 'Interpreter', 'Latex');
-    ylabel('Array Gain (dB)', 'Interpreter', 'Latex');
-    title('Array Gain for WOA Robust Method', 'Interpreter', 'Latex');
-    grid on;
-end
 end
 
 %% Objective function for analog beamformer
