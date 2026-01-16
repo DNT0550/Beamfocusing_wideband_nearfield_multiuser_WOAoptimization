@@ -19,10 +19,10 @@ Positions = initialization(SearchAgents_no, dim, ub, lb);
 Convergence_curve = zeros(1, Max_iter);
 
 % Loop counter
-l = 0;
+iter = 0;
 
 % Main loop
-while l < Max_iter
+while iter < Max_iter
     for i = 1:size(Positions, 1)
         % Return back the search agents that go beyond the boundaries of the search space
         Flag4ub = Positions(i, :) > ub;
@@ -38,13 +38,13 @@ while l < Max_iter
     Best_pos = Positions(index, :);
 
     % Update convergence curve
-    Convergence_curve(l + 1) = Best_score;
+    Convergence_curve(iter + 1) = Best_score;
 
     % a decreases linearly from 2 to 0
-    a = 2 - l * (2 / Max_iter);
+    a = 2 - iter * (2 / Max_iter);
 
     % a2 linearly decreases from -1 to -2
-    a2 = -1 + l * (-1 / Max_iter);
+    a2 = -1 + iter * (-1 / Max_iter);
 
     for i = 1:size(Positions, 1)
         r1 = rand();
@@ -76,7 +76,7 @@ while l < Max_iter
         end
     end
 
-    l = l + 1;
+    iter = iter + 1;
 end
 end
 
