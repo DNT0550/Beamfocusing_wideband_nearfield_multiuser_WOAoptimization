@@ -22,7 +22,7 @@ if nargin < 4
     H = generate_channel(para, user_r, user_theta);
 end
 if nargin < 5
-    t_max_range = [1e-9, 2e-9, 3e-9, 4e-9, 5e-9]; % Default t_max range in seconds
+    t_max_range = [1e-9, 3e-9, 5e-9]; % Default t_max range in seconds (reduced for faster execution)
 end
 
 SE_WOA_PNF = zeros(length(t_max_range), 1);
@@ -33,6 +33,9 @@ SE_orig_PNF = zeros(length(t_max_range), 1);
 SE_orig_robust = zeros(length(t_max_range), 1);
 SE_orig_fully_digital = zeros(length(t_max_range), 1);
 SE_orig_FDA_penalty = zeros(length(t_max_range), 1);
+
+fprintf('Starting computation for %d t_max values...\n', length(t_max_range));
+tic;
 
 for idx = 1:length(t_max_range)
     t_max = t_max_range(idx);
@@ -66,6 +69,9 @@ for idx = 1:length(t_max_range)
     [R, ~, ~, ~] = algorithm_FDA_penalty_new_WOA(para_temp, H, user_r, user_theta);
     SE_WOA_FDA_penalty(idx) = R(end);
 end
+
+elapsed_time = toc;
+fprintf('Computation completed in %.2f seconds.\n', elapsed_time);
 
 % Plot
 figure;
