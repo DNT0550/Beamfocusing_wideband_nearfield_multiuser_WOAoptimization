@@ -22,7 +22,7 @@ if nargin < 4
     H = generate_channel(para, user_r, user_theta);
 end
 if nargin < 5
-    N_T_range = [4, 8, 12, 16, 20]; % Default N_T range
+    N_T_range = [8, 16, 32, 64]; % Default N_T range, divisors of 512
 end
 
 SE_WOA_PNF = zeros(length(N_T_range), 1);
