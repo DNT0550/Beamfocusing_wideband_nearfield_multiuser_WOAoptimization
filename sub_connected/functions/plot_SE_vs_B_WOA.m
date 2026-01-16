@@ -28,9 +28,11 @@ end
 SE_WOA_PNF = zeros(length(B_range), 1);
 SE_WOA_robust = zeros(length(B_range), 1);
 SE_WOA_fully_digital = zeros(length(B_range), 1);
+SE_WOA_FDA_penalty = zeros(length(B_range), 1);
 SE_orig_PNF = zeros(length(B_range), 1);
 SE_orig_robust = zeros(length(B_range), 1);
 SE_orig_fully_digital = zeros(length(B_range), 1);
+SE_orig_FDA_penalty = zeros(length(B_range), 1);
 
 for idx = 1:length(B_range)
     B = B_range(idx);
@@ -48,6 +50,9 @@ for idx = 1:length(B_range)
     P_initial = randn(para_temp.N, para_temp.K) + 1i * randn(para_temp.N, para_temp.K);
     SE_orig_fully_digital(idx) = algorithm_fully_digital(para_temp, H, P_initial);
     
+    % Run original FDA penalty
+    SE_orig_FDA_penalty(idx) = algorithm_FDA_penalty(para_temp, H, user_r, user_theta);
+    
     % Run WOA HTS PNF
     SE_WOA_PNF(idx) = algorithm_HTS_PNF_WOA(para_temp, H, user_r, user_theta);
     
@@ -56,6 +61,9 @@ for idx = 1:length(B_range)
     
     % Run WOA fully digital
     SE_WOA_fully_digital(idx) = algorithm_fully_digital_WOA(para_temp, H, P_initial);
+    
+    % Run WOA FDA penalty
+    SE_WOA_FDA_penalty(idx) = algorithm_FDA_penalty_WOA(para_temp, H, user_r, user_theta);
 end
 
 % Plot
@@ -64,12 +72,14 @@ plot(B_range / 1e9, SE_orig_PNF, '-b', 'LineWidth', 1.5);
 hold on;
 plot(B_range / 1e9, SE_orig_robust, '-.r', 'LineWidth', 1.5);
 plot(B_range / 1e9, SE_orig_fully_digital, ':k', 'LineWidth', 1.5);
+plot(B_range / 1e9, SE_orig_FDA_penalty, '--y', 'LineWidth', 1.5);
 plot(B_range / 1e9, SE_WOA_PNF, '--g', 'LineWidth', 1.5);
 plot(B_range / 1e9, SE_WOA_robust, ':m', 'LineWidth', 1.5);
 plot(B_range / 1e9, SE_WOA_fully_digital, '-c', 'LineWidth', 1.5);
+plot(B_range / 1e9, SE_WOA_FDA_penalty, '-.b', 'LineWidth', 1.5);
 xlabel('Bandwidth (GHz)', 'Interpreter', 'Latex');
 ylabel('Spectral Efficiency (bit/s/Hz)', 'Interpreter', 'Latex');
-legend('HTS PNF (Original)', 'HTS Robust (Original)', 'Fully Digital (Original)', 'HTS PNF (WOA)', 'HTS Robust (WOA)', 'Fully Digital (WOA)', 'Interpreter', 'Latex');
+legend('HTS PNF (Original)', 'HTS Robust (Original)', 'Fully Digital (Original)', 'FDA Penalty (Original)', 'HTS PNF (WOA)', 'HTS Robust (WOA)', 'Fully Digital (WOA)', 'FDA Penalty (WOA)', 'Interpreter', 'Latex');
 title('Spectral Efficiency vs Bandwidth', 'Interpreter', 'Latex');
 grid on;
 box on;
