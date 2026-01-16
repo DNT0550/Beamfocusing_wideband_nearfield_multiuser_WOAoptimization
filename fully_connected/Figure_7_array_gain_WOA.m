@@ -27,11 +27,15 @@ user_r = r * ones(para.K, 1);
 user_theta = theta * ones(para.K, 1);
 H = generate_channel(para, user_r, user_theta); % Generate channel for the user
 
+% Initialize W_initial for consistency
+W_initial = randn(para.N, para.K) + 1i * randn(para.N, para.K);
+W_initial = W_initial / norm(W_initial, 'fro') * sqrt(para.Pt);
+
 % Run WOA HTS PNF
-[R_PNF_WOA, A_PNF_WOA, D_PNF_WOA, t_PNF_WOA] = algorithm_HTS_PNF_WOA(para, H, user_r, user_theta);
+[R_PNF_WOA, A_PNF_WOA, D_PNF_WOA, t_PNF_WOA] = algorithm_HTS_PNF_WOA(para, H, user_r, user_theta, W_initial);
 
 % Run WOA HTS robust
-[R_robust_WOA, A_robust_WOA, D_robust_WOA, t_robust_WOA] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta);
+[R_robust_WOA, A_robust_WOA, D_robust_WOA, t_robust_WOA] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta, W_initial);
 
 % Calculate beampattern for WOA
 [P_WOA_PNF, P_WOA_robust] = beampattern_WOA(para, theta, r, A_PNF_WOA, t_PNF_WOA, A_robust_WOA, t_robust_WOA);
@@ -61,8 +65,8 @@ para.fm_all =  para.fc + B*(2*m-1-para.M) / (2*para.M); % subcarrier frequencies
 
 % Re-run WOA for new frequencies
 H = generate_channel(para, user_r, user_theta);
-[R_PNF_WOA, A_PNF_WOA, D_PNF_WOA, t_PNF_WOA] = algorithm_HTS_PNF_WOA(para, H, user_r, user_theta);
-[R_robust_WOA, A_robust_WOA, D_robust_WOA, t_robust_WOA] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta);
+[R_PNF_WOA, A_PNF_WOA, D_PNF_WOA, t_PNF_WOA] = algorithm_HTS_PNF_WOA(para, H, user_r, user_theta, W_initial);
+[R_robust_WOA, A_robust_WOA, D_robust_WOA, t_robust_WOA] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta, W_initial);
 [P_WOA_PNF, P_WOA_robust] = beampattern_WOA(para, theta, r, A_PNF_WOA, t_PNF_WOA, A_robust_WOA, t_robust_WOA);
 
 subplot(3,1,2); hold on; box on;
@@ -86,8 +90,8 @@ para.fm_all =  para.fc + B*(2*m-1-para.M) / (2*para.M); % subcarrier frequencies
 
 % Re-run WOA
 H = generate_channel(para, user_r, user_theta);
-[R_PNF_WOA, A_PNF_WOA, D_PNF_WOA, t_PNF_WOA] = algorithm_HTS_PNF_WOA(para, H, user_r, user_theta);
-[R_robust_WOA, A_robust_WOA, D_robust_WOA, t_robust_WOA] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta);
+[R_PNF_WOA, A_PNF_WOA, D_PNF_WOA, t_PNF_WOA] = algorithm_HTS_PNF_WOA(para, H, user_r, user_theta, W_initial);
+[R_robust_WOA, A_robust_WOA, D_robust_WOA, t_robust_WOA] = algorithm_HTS_robust_WOA(para, H, user_r, user_theta, W_initial);
 [P_WOA_PNF, P_WOA_robust] = beampattern_WOA(para, theta, r, A_PNF_WOA, t_PNF_WOA, A_robust_WOA, t_robust_WOA);
 
 subplot(3,1,3); hold on; box on;
