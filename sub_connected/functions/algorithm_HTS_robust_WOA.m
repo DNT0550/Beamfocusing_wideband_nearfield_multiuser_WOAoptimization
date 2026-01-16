@@ -33,9 +33,9 @@ e = ones(N_sub, 1);
 % WOA parameters
 SearchAgents_no = 30;
 Max_iter = 100;
-dim = para.N_T * para.N_RF + para.N * para.N_RF; % Time delays and PS coefficients (real and imag)
-lb = [-10 * ones(1, para.N * para.N_RF), zeros(1, para.N_T * para.N_RF)];
-ub = [10 * ones(1, para.N * para.N_RF), para.t_max * ones(1, para.N_T * para.N_RF)];
+dim = 2*para.N * para.N_RF + para.N_T * para.N_RF; % PS real, PS imag, time delays
+lb = [-10 * ones(1, para.N * para.N_RF), -10 * ones(1, para.N * para.N_RF), zeros(1, para.N_T * para.N_RF)];
+ub = [10 * ones(1, para.N * para.N_RF), 10 * ones(1, para.N * para.N_RF), para.t_max * ones(1, para.N_T * para.N_RF)];
 
 % Objective function
 fobj = @(x) objective_analog(x, para, user_r, user_theta);

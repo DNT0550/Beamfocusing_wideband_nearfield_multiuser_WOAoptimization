@@ -97,5 +97,4 @@ if Boundary_no > 1
         Positions(:, i) = rand(SearchAgents_no, 1) .* (ub_i - lb_i) + lb_i;
     end
 end
-end</content>
-<parameter name="filePath">c:\Users\ADMIMN\Desktop\beamfocusing-optimization-for-near-field-wideband-multi-user-communications\fully_connected\functions\WOA.m
+end
