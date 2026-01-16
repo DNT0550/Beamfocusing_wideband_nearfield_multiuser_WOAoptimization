@@ -22,6 +22,8 @@ switch nargin
 end
 
 c = 3e8; % speed of light
+m = 1:para.M;
+para.fm_all = para.fc + para.B*(2*m-1-para.M) / (2*para.M); % subcarrier frequencies
 t_search = 0:para.t_max/1e3:para.t_max; % search space of TTDs' time delay
 
 N_sub = para.N/para.N_T; % number of antennas connected to each TTD
