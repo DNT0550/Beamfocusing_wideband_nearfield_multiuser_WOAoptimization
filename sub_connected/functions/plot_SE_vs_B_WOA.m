@@ -1,0 +1,53 @@
+function plot_SE_vs_B_WOA(para, H, user_r, user_theta, B_range)
+%Plot spectral efficiency versus bandwidth for WOA methods
+%  plot_SE_vs_B_WOA(para, H, user_r, user_theta, B_range)
+%Inputs:
+%   para: structure of the initial parameters
+%   H: channel for all users
+%   user_r: distance for all users
+%   user_theta: angle for all users
+%   B_range: array of bandwidth values (e.g., [1e10, 2e10, 3e10])
+%Date: 17/01/2026
+
+if nargin < 5
+    B_range = [1e10, 2e10, 3e10, 4e10, 5e10]; % Default B range in Hz
+end
+
+SE_WOA_PNF = zeros(length(B_range), 1);
+SE_WOA_robust = zeros(length(B_range), 1);
+SE_orig_PNF = zeros(length(B_range), 1);
+SE_orig_robust = zeros(length(B_range), 1);
+
+for idx = 1:length(B_range)
+    B = B_range(idx);
+    para_temp = para;
+    m = 1:para_temp.M;
+    para_temp.fm_all = para_temp.fc + B*(2*m-1-para_temp.M) / (2*para_temp.M); % subcarrier frequencies
+    
+    % Run original HTS PNF
+    SE_orig_PNF(idx) = algorithm_HTS_PNF(para_temp, H, user_r, user_theta);
+    
+    % Run original HTS robust
+    SE_orig_robust(idx) = algorithm_HTS_robust(para_temp, H, user_r, user_theta);
+    
+    % Run WOA HTS PNF
+    SE_WOA_PNF(idx) = algorithm_HTS_PNF_WOA(para_temp, H, user_r, user_theta);
+    
+    % Run WOA HTS robust
+    SE_WOA_robust(idx) = algorithm_HTS_robust_WOA(para_temp, H, user_r, user_theta);
+end
+
+% Plot
+figure;
+plot(B_range / 1e9, SE_orig_PNF, '-b', 'LineWidth', 1.5);
+hold on;
+plot(B_range / 1e9, SE_orig_robust, '-.r', 'LineWidth', 1.5);
+plot(B_range / 1e9, SE_WOA_PNF, '--g', 'LineWidth', 1.5);
+plot(B_range / 1e9, SE_WOA_robust, ':m', 'LineWidth', 1.5);
+xlabel('Bandwidth (GHz)', 'Interpreter', 'Latex');
+ylabel('Spectral Efficiency (bit/s/Hz)', 'Interpreter', 'Latex');
+legend('HTS PNF (Original)', 'HTS Robust (Original)', 'HTS PNF (WOA)', 'HTS Robust (WOA)', 'Interpreter', 'Latex');
+title('Spectral Efficiency vs Bandwidth', 'Interpreter', 'Latex');
+grid on;
+box on;
+hold off;

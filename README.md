@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Beamfocusing Optimization for Near-Field Wideband Multi-User Communications
 
 The code for the paper 
@@ -41,3 +42,6 @@ If you in any way use this code for research, please cite our original article l
   publisher={IEEE}
 }
 ```
+=======
+# Beamfocusing_wideband_nearfield_multiuser_WOAoptimization
+>>>>>>> caacd94663d74c28313ee46063569f36fa709e51
