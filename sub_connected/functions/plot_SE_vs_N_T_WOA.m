@@ -52,7 +52,8 @@ for idx = 1:length(N_T_range)
     SE_orig_fully_digital(idx) = algorithm_fully_digital(para_temp, H, P_initial);
     
     % Run original FDA penalty
-    SE_orig_FDA_penalty(idx) = algorithm_FDA_penalty(para_temp, H, user_r, user_theta);
+    [R, ~, ~, ~] = algorithm_FDA_penalty(para_temp, H, user_r, user_theta);
+    SE_orig_FDA_penalty(idx) = R;
     
     % Run WOA HTS PNF
     SE_WOA_PNF(idx) = algorithm_HTS_PNF_WOA(para_temp, H, user_r, user_theta);
@@ -64,7 +65,8 @@ for idx = 1:length(N_T_range)
     SE_WOA_fully_digital(idx) = algorithm_fully_digital_WOA(para_temp, H, P_initial);
     
     % Run WOA FDA penalty
-    SE_WOA_FDA_penalty(idx) = algorithm_FDA_penalty_WOA(para_temp, H, user_r, user_theta);
+    [R, ~, ~, ~] = algorithm_FDA_penalty_WOA(para_temp, H, user_r, user_theta);
+    SE_WOA_FDA_penalty(idx) = R;
 end
 
 % Plot
