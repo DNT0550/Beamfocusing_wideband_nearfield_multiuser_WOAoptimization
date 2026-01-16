@@ -46,7 +46,8 @@ for idx = 1:length(N_T_range)
     SE_orig_robust(idx) = algorithm_HTS_robust(para_temp, H, user_r, user_theta);
     
     % Run original fully digital
-    SE_orig_fully_digital(idx) = algorithm_fully_digital(para_temp, H);
+    P_initial = randn(para_temp.N, para_temp.K) + 1i * randn(para_temp.N, para_temp.K);
+    SE_orig_fully_digital(idx) = algorithm_fully_digital(para_temp, H, P_initial);
     
     % Run WOA HTS PNF
     SE_WOA_PNF(idx) = algorithm_HTS_PNF_WOA(para_temp, H, user_r, user_theta);
@@ -55,7 +56,7 @@ for idx = 1:length(N_T_range)
     SE_WOA_robust(idx) = algorithm_HTS_robust_WOA(para_temp, H, user_r, user_theta);
     
     % Run WOA fully digital
-    SE_WOA_fully_digital(idx) = algorithm_fully_digital_WOA(para_temp, H);
+    SE_WOA_fully_digital(idx) = algorithm_fully_digital_WOA(para_temp, H, P_initial);
 end
 
 % Plot
