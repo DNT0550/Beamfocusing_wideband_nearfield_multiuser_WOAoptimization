@@ -15,8 +15,8 @@ para.M = 256; % number of subcarriers
 B_values = [1e10, 2e10, 3e10]; % 10 GHz, 20 GHz, 30 GHz
 
 % For simplicity, assume single user
-user_r = r;
-user_theta = theta;
+user_r = r * ones(para.K, 1);
+user_theta = theta * ones(para.K, 1);
 
 % Initialize P for WOA
 P_WOA_PNF_all = cell(length(B_values), 1);

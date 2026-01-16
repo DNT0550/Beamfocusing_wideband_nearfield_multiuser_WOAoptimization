@@ -54,7 +54,7 @@ while l < Max_iter
         C = 2 * r2;
 
         b = 1;
-        l = (a2 - 1) * rand + 1;
+        ll = (a2 - 1) * rand + 1;
 
         p = rand();
 
@@ -71,7 +71,7 @@ while l < Max_iter
                 end
             elseif p >= 0.5
                 distance2Leader = abs(Best_pos(j) - Positions(i, j));
-                Positions(i, j) = distance2Leader * exp(b * l) * cos(l * 2 * pi) + Best_pos(j);
+                Positions(i, j) = distance2Leader * exp(b * ll) * cos(ll * 2 * pi) + Best_pos(j);
             end
         end
     end
