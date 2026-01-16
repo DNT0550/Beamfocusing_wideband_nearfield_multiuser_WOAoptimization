@@ -10,6 +10,21 @@ function plot_array_gain_WOA(para, theta, r, P_WOA_PNF, P_WOA_robust, B_values)
 %   B_values: array of bandwidths to plot (e.g., [1e10, 2e10, 3e10])
 %Date: 17/01/2026
 
+if nargin < 1
+    para = para_init();
+end
+if nargin < 2
+    theta = 45*pi/180;
+end
+if nargin < 3
+    r = 10;
+end
+if nargin < 4
+    P_WOA_PNF = [];
+end
+if nargin < 5
+    P_WOA_robust = [];
+end
 if nargin < 6
     B_values = [1e10, 2e10, 3e10]; % Default bandwidths
 end
