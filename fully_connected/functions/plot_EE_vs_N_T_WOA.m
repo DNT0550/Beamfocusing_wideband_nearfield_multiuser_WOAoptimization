@@ -28,9 +28,11 @@ end
 EE_WOA_PNF = zeros(length(N_T_range), 1);
 EE_WOA_robust = zeros(length(N_T_range), 1);
 EE_WOA_fully_digital = zeros(length(N_T_range), 1);
+EE_WOA_FDA_penalty = zeros(length(N_T_range), 1);
 EE_orig_PNF = zeros(length(N_T_range), 1);
 EE_orig_robust = zeros(length(N_T_range), 1);
 EE_orig_fully_digital = zeros(length(N_T_range), 1);
+EE_orig_FDA_penalty = zeros(length(N_T_range), 1);
 
 for idx = 1:length(N_T_range)
     N_T = N_T_range(idx);
@@ -50,6 +52,10 @@ for idx = 1:length(N_T_range)
     SE_orig_fully_digital = algorithm_fully_digital(para_temp, H, P_initial);
     EE_orig_fully_digital(idx) = SE_orig_fully_digital / para_temp.Pt;
     
+    % Run original FDA penalty
+    [R, ~, ~, ~] = algorithm_FDA_penalty_new(para_temp, H, user_r, user_theta);
+    EE_orig_FDA_penalty(idx) = R(end) / para_temp.Pt;
+    
     % Run WOA HTS PNF
     SE_WOA_PNF = algorithm_HTS_PNF_WOA(para_temp, H, user_r, user_theta);
     EE_WOA_PNF(idx) = SE_WOA_PNF / para_temp.Pt;
@@ -61,6 +67,10 @@ for idx = 1:length(N_T_range)
     % Run WOA fully digital
     SE_WOA_fully_digital = algorithm_fully_digital_WOA(para_temp, H, P_initial);
     EE_WOA_fully_digital(idx) = SE_WOA_fully_digital / para_temp.Pt;
+    
+    % Run WOA FDA penalty
+    [R, ~, ~, ~] = algorithm_FDA_penalty_new_WOA(para_temp, H, user_r, user_theta);
+    EE_WOA_FDA_penalty(idx) = R(end) / para_temp.Pt;
 end
 
 % Plot
@@ -69,12 +79,14 @@ plot(N_T_range, EE_orig_PNF, '-b', 'LineWidth', 1.5);
 hold on;
 plot(N_T_range, EE_orig_robust, '-.r', 'LineWidth', 1.5);
 plot(N_T_range, EE_orig_fully_digital, ':k', 'LineWidth', 1.5);
+plot(N_T_range, EE_orig_FDA_penalty, '--y', 'LineWidth', 1.5);
 plot(N_T_range, EE_WOA_PNF, '--g', 'LineWidth', 1.5);
 plot(N_T_range, EE_WOA_robust, ':m', 'LineWidth', 1.5);
 plot(N_T_range, EE_WOA_fully_digital, '-c', 'LineWidth', 1.5);
+plot(N_T_range, EE_WOA_FDA_penalty, '-.b', 'LineWidth', 1.5);
 xlabel('Number of TTDs', 'Interpreter', 'Latex');
 ylabel('Energy Efficiency (bit/s/Hz/W)', 'Interpreter', 'Latex');
-legend('HTS PNF (Original)', 'HTS Robust (Original)', 'Fully Digital (Original)', 'HTS PNF (WOA)', 'HTS Robust (WOA)', 'Fully Digital (WOA)', 'Interpreter', 'Latex');
+legend('HTS PNF (Original)', 'HTS Robust (Original)', 'Fully Digital (Original)', 'FDA Penalty (Original)', 'HTS PNF (WOA)', 'HTS Robust (WOA)', 'Fully Digital (WOA)', 'FDA Penalty (WOA)', 'Interpreter', 'Latex');
 title('Energy Efficiency vs Number of TTDs', 'Interpreter', 'Latex');
 grid on;
 box on;
