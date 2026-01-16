@@ -23,8 +23,8 @@ para.fm_all =  para.fc + B*(2*m-1-para.M) / (2*para.M); % subcarrier frequencies
 
 % For WOA methods, we need to run the algorithms to get A and t
 % Assuming single user for simplicity
-user_r = r;
-user_theta = theta;
+user_r = r * ones(para.K, 1);
+user_theta = theta * ones(para.K, 1);
 H = generate_channel(para, user_r, user_theta); % Generate channel for the user
 
 % Run WOA HTS PNF
